@@ -1,0 +1,34 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="390" viewBox="0 0 1200 390" role="img" aria-labelledby="title desc">
+  <title id="title">FreeModels Web2API request flow</title>
+  <desc id="desc">OpenAI clients call a local guarded adapter which talks to the public upstream worker and its unverified model route</desc>
+  <defs>
+    <linearGradient id="panel" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#111827"/><stop offset="1" stop-color="#1e1b4b"/></linearGradient>
+    <linearGradient id="line" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#fb923c"/><stop offset=".5" stop-color="#a855f7"/><stop offset="1" stop-color="#38bdf8"/></linearGradient>
+    <marker id="arrow" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto"><path d="M0 0l12 6-12 6z" fill="#a855f7"/></marker>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%"><feDropShadow dx="0" dy="9" stdDeviation="12" flood-color="#020617" flood-opacity=".34"/></filter>
+  </defs>
+  <rect width="1200" height="390" rx="28" fill="#080d1a"/>
+  <text x="600" y="45" fill="#f8fafc" text-anchor="middle" font-family="Inter,Segoe UI,Arial,sans-serif" font-size="24" font-weight="700">Request flow</text>
+  <text x="600" y="70" fill="#94a3b8" text-anchor="middle" font-family="Inter,Segoe UI,Arial,sans-serif" font-size="14">Translation, normalization, and local safety controls</text>
+  <g filter="url(#shadow)">
+    <rect x="55" y="112" width="225" height="160" rx="22" fill="url(#panel)" stroke="#fb923c" stroke-opacity=".7"/>
+    <rect x="345" y="95" width="280" height="195" rx="22" fill="url(#panel)" stroke="#a855f7" stroke-opacity=".85" stroke-width="2"/>
+    <rect x="690" y="112" width="225" height="160" rx="22" fill="url(#panel)" stroke="#38bdf8" stroke-opacity=".7"/>
+    <rect x="980" y="112" width="165" height="160" rx="22" fill="url(#panel)" stroke="#64748b" stroke-opacity=".75"/>
+  </g>
+  <g font-family="Inter,Segoe UI,Arial,sans-serif" text-anchor="middle">
+    <circle cx="168" cy="157" r="25" fill="#fb923c" fill-opacity=".15" stroke="#fb923c"/>
+    <path d="M154 157h28m-21-10-10 10 10 10m14-20 10 10-10 10" fill="none" stroke="#fed7aa" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+    <text x="168" y="208" fill="#f8fafc" font-size="20" font-weight="700">OpenAI client</text><text x="168" y="234" fill="#94a3b8" font-size="14">SDK • curl • desktop app</text>
+    <circle cx="485" cy="144" r="25" fill="#a855f7" fill-opacity=".15" stroke="#a855f7"/><path d="M470 144h30m-15-15v30" stroke="#e9d5ff" stroke-width="3" stroke-linecap="round"/>
+    <text x="485" y="191" fill="#f8fafc" font-size="20" font-weight="700">Local adapter</text><text x="485" y="217" fill="#c4b5fd" font-size="14">127.0.0.1:8082</text><text x="485" y="248" fill="#94a3b8" font-size="13">validation • rate limits</text><text x="485" y="268" fill="#94a3b8" font-size="13">SSE normalization • model map</text>
+    <circle cx="802" cy="157" r="25" fill="#38bdf8" fill-opacity=".15" stroke="#38bdf8"/><path d="M788 159c7-18 21-18 28 0-7 12-21 12-28 0Z" fill="none" stroke="#bae6fd" stroke-width="3"/>
+    <text x="802" y="208" fill="#f8fafc" font-size="20" font-weight="700">Public Worker</text><text x="802" y="234" fill="#94a3b8" font-size="14">FreeModels.pro infrastructure</text>
+    <circle cx="1062" cy="157" r="25" fill="#64748b" fill-opacity=".2" stroke="#94a3b8"/><text x="1062" y="164" fill="#e2e8f0" font-size="22" font-weight="800">?</text>
+    <text x="1062" y="208" fill="#f8fafc" font-size="18" font-weight="700">Model route</text><text x="1062" y="234" fill="#94a3b8" font-size="13">identity unverified</text>
+  </g>
+  <path d="M280 174h60M625 174h60M915 174h60" stroke="url(#line)" stroke-width="4" marker-end="url(#arrow)"/>
+  <path d="M975 230h-55M685 230h-55M340 230h-55" stroke="#64748b" stroke-width="3" stroke-dasharray="7 7" marker-end="url(#arrow)" opacity=".8"/>
+  <text x="310" y="156" fill="#cbd5e1" text-anchor="middle" font-family="ui-monospace,Consolas,monospace" font-size="12">JSON</text><text x="655" y="156" fill="#cbd5e1" text-anchor="middle" font-family="ui-monospace,Consolas,monospace" font-size="12">POST</text><text x="945" y="156" fill="#cbd5e1" text-anchor="middle" font-family="ui-monospace,Consolas,monospace" font-size="12">route</text>
+  <text x="600" y="345" fill="#94a3b8" text-anchor="middle" font-family="Inter,Segoe UI,Arial,sans-serif" font-size="14">Solid: request • Dashed: streamed response</text>
+</svg>
