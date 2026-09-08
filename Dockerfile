@@ -9,12 +9,12 @@ WORKDIR /app
 
 RUN groupadd -r appuser && useradd -r -g appuser -d /app -s /sbin/nologin appuser
 
-COPY requirements.txt pyproject.toml ./
+COPY requirements.txt ./
 RUN pip install --no-cache-dir --upgrade pip && \
     pip install --no-cache-dir -r requirements.txt
 
-COPY freemodels_web2api.py ./
-RUN pip install --no-cache-dir -e .
+COPY README.md LICENSE pyproject.toml freemodels_web2api.py ./
+RUN pip install --no-cache-dir .
 
 RUN chown -R appuser:appuser /app
 USER appuser
