@@ -1,0 +1,41 @@
+{
+  "name": "freemodels-web2api",
+  "type": "service",
+  "description": "OpenAI-compatible adapter for FreeModels.pro",
+  "build": {
+    "type": "dockerfile",
+    "dockerfilePath": "Dockerfile"
+  },
+  "ports": [
+    {
+      "published": 8082,
+      "target": 8082
+    }
+  ],
+  "env": [
+    {
+      "key": "LOCAL_API_KEY",
+      "label": "Local API Key",
+      "description": "Secret key required for API requests",
+      "required": true
+    },
+    {
+      "key": "MAX_CONCURRENCY",
+      "label": "Max Concurrency",
+      "defaultValue": "2",
+      "required": false
+    },
+    {
+      "key": "MAX_REQUESTS_PER_MINUTE",
+      "label": "Max Requests Per Minute",
+      "defaultValue": "10",
+      "required": false
+    },
+    {
+      "key": "ALLOW_UNPROTECTED_BIND",
+      "label": "Allow Unprotected Bind",
+      "defaultValue": "false",
+      "required": false
+    }
+  ]
+}

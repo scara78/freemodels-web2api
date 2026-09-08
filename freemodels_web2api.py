@@ -57,6 +57,7 @@ MAX_REQUESTS_PER_MINUTE = int(os.environ.get("MAX_REQUESTS_PER_MINUTE", "10"))
 MAX_CONCURRENCY = int(os.environ.get("MAX_CONCURRENCY", "2"))
 UPSTREAM_TIMEOUT_SECONDS = float(os.environ.get("UPSTREAM_TIMEOUT_SECONDS", "120"))
 LOCAL_API_KEY = os.environ.get("LOCAL_API_KEY", "")
+ALLOW_UNPROTECTED_BIND = os.environ.get("ALLOW_UNPROTECTED_BIND", "").strip().lower() in {"1", "true", "yes"}
 
 _concurrency = threading.BoundedSemaphore(MAX_CONCURRENCY)
 _rate_lock = threading.Lock()
@@ -405,16 +406,16 @@ class Handler(BaseHTTPRequestHandler):
 
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--host", default="127.0.0.1")
-    parser.add_argument("--port", type=int, default=8082)
+    parser.add_argument("--host", default=os.environ.get("HOST", "127.0.0.1"))
+    parser.add_argument("--port", type=int, default=int(os.environ.get("PORT", "8082")))
     parser.add_argument("--version", action="version", version=VERSION)
     return parser.parse_args()
 
 
 def main() -> None:
     args = parse_args()
-    if args.host not in {"127.0.0.1", "localhost", "::1"} and not LOCAL_API_KEY:
-        raise SystemExit("Refusing a non-loopback bind without LOCAL_API_KEY")
+    if args.host not in {"127.0.0.1", "localhost", "::1"} and not LOCAL_API_KEY and not ALLOW_UNPROTECTED_BIND:
+        raise SystemExit("Refusing a non-loopback bind without LOCAL_API_KEY (or set ALLOW_UNPROTECTED_BIND=true)")
     server = ThreadingHTTPServer((args.host, args.port), Handler)
     print(f"freemodels-web2api {VERSION}")
     print(f"Listening: http://{args.host}:{args.port}")

@@ -1,0 +1,20 @@
+version: "3.8"
+
+services:
+  freemodels-web2api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: freemodels-web2api:latest
+    container_name: freemodels-web2api
+    restart: unless-stopped
+    ports:
+      - "8082:8082"
+    environment:
+      - HOST=0.0.0.0
+      - PORT=8082
+      - LOCAL_API_KEY=${LOCAL_API_KEY:-my-secret-key}
+      - MAX_REQUESTS_PER_MINUTE=${MAX_REQUESTS_PER_MINUTE:-10}
+      - MAX_CONCURRENCY=${MAX_CONCURRENCY:-2}
+      - UPSTREAM_TIMEOUT_SECONDS=${UPSTREAM_TIMEOUT_SECONDS:-120}
+      - ALLOW_UNPROTECTED_BIND=${ALLOW_UNPROTECTED_BIND:-false}

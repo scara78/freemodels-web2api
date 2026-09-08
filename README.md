@@ -40,7 +40,7 @@ rotation.
 - OpenAI Python SDK, curl, and compatible desktop-client support
 - Loopback-only default binding
 - Request-size, context, rate, and concurrency guardrails
-- Public binding refused unless a local API key is configured
+- Public binding refused unless a local API key is configured (or explicitly bypassed)
 
 ## Quick start
 
@@ -84,6 +84,39 @@ Invoke-RestMethod `
   -ContentType "application/json" `
   -Body $body
 ```
+
+---
+
+## Docker & Easypanel Deployment
+
+### Deploy cu Docker
+
+```bash
+# Build & run container
+docker build -t freemodels-web2api .
+docker run -d -p 8082:8082 -e LOCAL_API_KEY="cheia-ta-secreta" --name freemodels-web2api freemodels-web2api
+```
+
+Sau cu `docker-compose`:
+
+```bash
+LOCAL_API_KEY="cheia-ta-secreta" docker compose up -d
+```
+
+### Deploy in Easypanel
+
+1. În **Easypanel**, creează un nou serviciu (**App** / **Service**).
+2. Sursa: **GitHub / Git Repository** (link către acest repo).
+3. Build Type: **Dockerfile** (selectează automat fișierul `Dockerfile`).
+4. Setează portul containerului: **8082**.
+5. În secțiunea **Environment**, adaugă:
+   - `LOCAL_API_KEY`: o cheie secretă (ex: `sk-local-123456`)
+   - `PORT`: `8082`
+   - `HOST`: `0.0.0.0`
+   *(Opțional: dacă nu dorești autentificare cu cheie, setează `ALLOW_UNPROTECTED_BIND=true`)*.
+6. Apasă **Deploy**.
+
+---
 
 ## OpenAI SDK
 
@@ -167,6 +200,9 @@ assembled into one standard `chat.completion` response.
 | Environment variable | Default | Description |
 | --- | ---: | --- |
 | `LOCAL_API_KEY` | unset | Required before binding beyond loopback |
+| `ALLOW_UNPROTECTED_BIND` | `false` | Set `true` to allow `0.0.0.0` without `LOCAL_API_KEY` |
+| `HOST` | `127.0.0.1` | Host to bind server to |
+| `PORT` | `8082` | Port to listen on |
 | `MAX_REQUESTS_PER_MINUTE` | `10` | Per-client local request limit |
 | `MAX_CONCURRENCY` | `2` | Maximum simultaneous upstream generations |
 | `MAX_BODY_BYTES` | `262144` | Maximum incoming JSON body size |
